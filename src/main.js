@@ -5,6 +5,7 @@ import { loadEar } from "./model.js";
 import { HearingAnimation } from "./animation.js";
 import { ProgressStore } from "./progress.js";
 import { QUESTIONS, score } from "./quiz.js";
+import { NameLabels } from "./labels.js";
 
 const $ = (sel) => document.querySelector(sel);
 const viewer = $("#viewer");
@@ -48,7 +49,7 @@ function renderResume() {
 }
 
 // ---------- Scene ----------
-let scene, camera, renderer, controls, model, animation;
+let scene, camera, renderer, controls, model, animation, labels;
 const INITIAL_CAMERA = new THREE.Vector3();
 const INITIAL_TARGET = new THREE.Vector3();
 const pickable = [];
@@ -82,6 +83,7 @@ async function initScene() {
   model.root.traverse((o) => { if (o.isMesh) pickable.push(o); });
 
   animation = new HearingAnimation(scene, model.pivots, onAnimationStep, model.wave);
+  labels = new NameLabels(viewer, camera, model.root, isVisible);
 
   window.addEventListener("resize", () => {
     camera.aspect = viewer.clientWidth / viewer.clientHeight;
@@ -96,6 +98,7 @@ async function initScene() {
     animation.update(clock.getDelta());
     controls.update();
     renderer.render(scene, camera);
+    labels.update();
   });
 }
 
@@ -200,8 +203,12 @@ function renderSteps() {
   });
 }
 
+// Part whose label is highlighted at each animation step (the wave travels along the canal).
+const STEP_PART = { wave: "canal" };
 function onAnimationStep(index, done) {
   document.querySelectorAll("#steps li").forEach((li) => li.classList.toggle("active", Number(li.dataset.index) === index));
+  const step = STEPS[index];
+  labels.setActive(done || !step ? null : (STEP_PART[step.id] ?? step.id));
   if (done) {
     $("#play").textContent = "Reprodueix";
     applyLayers(); // layers back to how the user left them
@@ -322,6 +329,7 @@ async function start() {
   bindAnimation();
   bindProgressButtons();
   $("#reset-view").addEventListener("click", resetView);
+  $("#show-names").addEventListener("change", (e) => labels.setShown(e.target.checked));
   $("#loading").hidden = true;
   window.__oida = { select, screenPoint }; // used by the smoke test
   document.body.dataset.ready = "true";
