@@ -1,0 +1,38 @@
+/* Minimal interface for delivery 1. The own design comes before the final gift. */
+:root {
+  --bg: #f6f4ef;
+  --panel: #ffffff;
+  --text: #1f2328;
+  --muted: #5d636b;
+  --accent: #2f6db0;
+  --ok: #1d7a3a;
+  --ko: #b3261e;
+  --warn-bg: #fff4d6;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+header { padding: 16px 24px 8px; }
+h1 { margin: 0; font-size: 1.5rem; }
+h2 { margin: 0 0 8px; font-size: 1.05rem; }
+.resume, .hint { color: var(--muted); font-size: 0.9rem; margin: 4px 0; }
+.notice, .provisional { margin: 0 24px 8px; padding: 8px 12px; border-radius: 6px; background: var(--warn-bg); font-size: 0.9rem; }
+main { display: grid; grid-template-columns: 1fr 320px; gap: 16px; padding: 0 24px; }
+#viewer { position: relative; height: 62vh; min-height: 420px; background: #20262e; border-radius: 8px; overflow: hidden; }
+#viewer canvas { display: block; width: 100%; height: 100%; }
+.loading, .error { position: absolute; inset: 0; margin: auto; height: fit-content; text-align: center; color: #fff; padding: 16px; }
+.error { color: #ffd2cc; }
+aside { display: flex; flex-direction: column; gap: 12px; }
+.panel { background: var(--panel); border-radius: 8px; padding: 12px 14px; }
+section.panel { margin: 16px 24px 0; }
+button, .file-button { font: inherit; padding: 6px 12px; margin: 2px 4px 2px 0; border: 1px solid var(--accent); border-radius: 6px; background: #fff; color: var(--accent); cursor: pointer; }
+button:hover, .file-button:hover { background: #eaf1fa; }
+.file-button input { display: none; }
+#layers label { display: block; margin: 4px 0; }
+#steps { padding-left: 20px; margin: 8px 0 0; }
+#steps li { padding: 2px 0; color: var(--muted); }
+#steps li.active { color: var(--text); font-weight: 600; }
+fieldset { border: 1px solid #ddd; border-radius: 6px; margin: 0 0 10px; }
+legend { font-weight: 600; padding: 0 4px; }
+.feedback.ok { color: var(--ok); }
+.feedback.ko { color: var(--ko); }
+footer { padding: 16px 24px 24px; color: var(--muted); font-size: 0.85rem; }

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>L'oïda humana en 3D</title>
+  <link rel="stylesheet" href="src/styles.css">
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three/three.module.min.js", "three/addons/": "./vendor/three/" } }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>L'oïda humana en 3D</h1>
+    <p id="resume" class="resume"></p>
+  </header>
+
+  <p id="notice" class="notice" hidden></p>
+  <p class="provisional">Orella dreta de l'atles anatòmic Z-Anatomy. El conducte auditiu extern no hi és com a peça pròpia: aquí és una <strong>reconstrucció</strong> (un tub en S entre la concha i el timpà del mateix model). La part òssia de la trompa auditiva, que l'atles tampoc no té, també és una <strong>reconstrucció</strong> (de la caixa del timpà fins a la part cartilaginosa). La finestra oval és una referència esquemàtica.</p>
+
+  <main>
+    <section id="viewer" aria-label="Visor 3D">
+      <p id="loading" class="loading">Carregant el model…</p>
+      <p id="error" class="error" hidden></p>
+    </section>
+
+    <aside>
+      <div id="info" class="panel"></div>
+
+      <div class="panel">
+        <h2>Vista</h2>
+        <button id="reset-view" type="button">Vista inicial</button>
+        <p class="hint">Arrossega per girar, roda del ratolí per fer zoom.</p>
+      </div>
+
+      <div class="panel">
+        <h2>Capes</h2>
+        <div id="layers"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Com sentim</h2>
+        <button id="play" type="button">Reprodueix</button>
+        <button id="restart" type="button">Des del principi</button>
+        <ol id="steps"></ol>
+      </div>
+    </aside>
+  </main>
+
+  <section id="quiz" class="panel">
+    <h2>Repàs</h2>
+    <div id="quiz-questions"></div>
+  </section>
+
+  <section class="panel progress-tools">
+    <h2>El teu progrés</h2>
+    <p class="hint">Es desa en aquest navegador. Per portar-lo a un altre ordinador, exporta'l i importa'l allà.</p>
+    <button id="export" type="button">Exporta el progrés</button>
+    <label class="file-button">Importa el progrés <input id="import" type="file" accept="application/json,.json"></label>
+    <button id="reset" type="button">Comença de zero</button>
+  </section>
+
+  <footer>
+    <p>Model anatòmic (<a href="model/LLICENCIA.md">llicència per peça</a>): timpà, ossets, còclea, vestíbul i canals semicirculars i nervi, de la Universitat de Dundee, «Anatomy of the Inner Ear» (dundee.ac.uk/tilt) (P. Spielmann, P. Lockwood, D. Stewart, A. Campbell), derivat de «3D Ear» de McGill (Funnell, Daniel i Nicolson), llicència CC BY-NC-SA 4.0 (ús no comercial); pavelló, trompa auditiva i os temporal, de Z-Anatomy (github.com/Z-Anatomy), llicència CC BY-SA 4.0. Orella dreta exportada i simplificada per a aquesta web. Conducte auditiu extern, part òssia de la trompa auditiva i finestra oval: reconstruïts per a aquesta web, no són de l'atles (obra pròpia, CC BY-SA 4.0). Fet amb <a href="vendor/three/LICENSE">Three.js</a> (llicència MIT).</p>
+  </footer>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
