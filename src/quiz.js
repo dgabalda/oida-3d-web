@@ -12,7 +12,7 @@ export const QUESTIONS = [
   {
     id: "q-stapes-window",
     text: "On encaixa la platina de l'estrep?",
-    options: ["A la finestra rodona", "A la finestra oval", "Al conducte auditiu"],
+    options: ["A la finestra rodona", "A la finestra oval", "Al promontori"],
     answer: 1,
     explanation: "La platina de l'estrep tanca la finestra oval i hi transmet la vibració.",
   },

@@ -41,7 +41,7 @@ Llicència: **Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0** �
 | Fitxer | Què és |
 |---|---|
 | `canal.glb` | **Reconstruït per a aquesta web, no és de l'atles:** tub en S de ~24 mm i 7 mm de diàmetre entre el centre de *Cavity of concha.r* i el centre de *Tympanic membrane.r*. |
-| `auditoryTubeBony.glb` | **Reconstruït per a aquesta web, no és de l'atles:** part òssia de la trompa auditiva, tub de ~15 mm que s'estreny de 3,5 mm a 1,6 mm de diàmetre (istme), de la part alta de la paret anterior de la caixa del timpà fins a l'inici d'*Auditory tube.r* (part cartilaginosa). Forma part de l'estructura «Trompa auditiva». |
+| `auditoryTubeBony.glb` | **Reconstruït per a aquesta web, no és de l'atles:** part òssia de la trompa auditiva, tub de ~19 mm que s'estreny de 3,5 mm a 1,6 mm de diàmetre (istme), des de la paret anterior de la caixa del timpà (4 mm per davant del timpà, 1,5 mm medial, per sota del canal del tensor del timpà) fins a l'inici d'*Auditory tube.r* (part cartilaginosa). Forma part de l'estructura «Trompa auditiva». |
 
 La finestra oval també és una referència esquemàtica dibuixada al codi (no és de l'atles).
 

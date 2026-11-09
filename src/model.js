@@ -1,13 +1,14 @@
 // Right ear from the Z-Anatomy atlas, licensed per part (middle and inner ear: University of Dundee,
 // CC BY-NC-SA 4.0; pinna, auditory tube and temporal bone: CC BY-SA 4.0 — see model/LLICENCIA.md), exported to model/*.glb by
 // scripts/model/exporta-orella.py: one file per structure, in metres. The ear canal
-// ("canal") is RECONSTRUCTED for this page (an S-shaped tube from the concha to the
+// ("canal") is RECONSTRUCTED for this page (an S-shaped tube from the conca (concha) to the
 // tympanum of the same atlas); it is not in the atlas and the page says so.
 // The scene is centred on the tympanum and scaled to centimetres (1 unit = 1 cm).
 
 import * as THREE from "three";
 import { parseGLB } from "./glb.js";
 import { MODEL_PARTS } from "./parts.js";
+import { stapesFootplate } from "./footplate.js";
 
 const ANIMATED = ["tympanum", "malleus", "incus", "stapes"];
 const SCALE = 100; // metres → centimetres
@@ -24,6 +25,13 @@ function geometryFrom(glb) {
   if (glb.indices) g.setIndex(new THREE.BufferAttribute(glb.indices, 1));
   if (!glb.normals) g.computeVertexNormals();
   return g;
+}
+
+function footplateOf(stapes, vestibule) {
+  vestibule.computeBoundingBox();
+  const towards = vestibule.boundingBox.getCenter(new THREE.Vector3()).toArray();
+  const f = stapesFootplate(stapes.attributes.position.array, towards);
+  return { centre: new THREE.Vector3(...f.centre), normal: new THREE.Vector3(...f.normal) };
 }
 
 export async function loadEar(base = "model/") {
@@ -49,6 +57,7 @@ export async function loadEar(base = "model/") {
   }
   layers.context.visible = false; // temporal bone: optional context, off by default
 
+  const footplate = footplateOf(geoms.stapes, geoms.vestibule); // before the stapes is moved to its pivot
   const pivots = {};
   const centres = {};
   for (const { part } of loaded) {
@@ -73,14 +82,14 @@ export async function loadEar(base = "model/") {
     }
   }
 
-  // Oval window: schematic reference ring where the stapes footplate meets the vestibule.
-  const toVestibule = centres.vestibule.clone().sub(centres.stapes).normalize();
+  // Oval window: schematic reference ring around the stapes footplate, in the footplate's plane
+  // (its normal is the stapes' main axis, head → footplate), just beyond the footplate.
   const ring = new THREE.Mesh(
     new THREE.TorusGeometry(0.13, 0.015, 12, 48),
     new THREE.MeshStandardMaterial({ color: 0x3f7fc0, roughness: 0.5 }),
   );
-  ring.position.copy(centres.stapes).addScaledVector(toVestibule, 0.18);
-  ring.lookAt(ring.position.clone().add(toVestibule));
+  ring.position.copy(footplate.centre).addScaledVector(footplate.normal, 0.01);
+  ring.lookAt(ring.position.clone().add(footplate.normal));
   layers.middle.add(tagged(ring, "ovalWindow"));
 
   // Path of the sound wave: along the reconstructed canal, from its entrance to the tympanum.

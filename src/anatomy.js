@@ -25,8 +25,8 @@ export const STRUCTURES = [
   {
     id: "tympanum",
     layer: "middle",
-    name: "Timpà",
-    text: "Membrana fina que separa l'orella externa de la mitjana i vibra amb les ones sonores.",
+    name: "Membrana timpànica (timpà)",
+    text: "Membrana fina, en forma de con i inclinada, que separa el conducte auditiu extern de la caixa del timpà i vibra amb les ones sonores.",
   },
   {
     id: "malleus",
@@ -55,14 +55,14 @@ export const STRUCTURES = [
   {
     id: "auditoryTube",
     layer: "middle",
-    name: "Trompa auditiva",
-    text: "Conducte que uneix l'orella mitjana amb la faringe i n'iguala la pressió amb la de l'exterior. La part òssia, la que surt de la caixa del timpà, és una reconstrucció.",
+    name: "Trompa auditiva (trompa d'Eustaqui)",
+    text: "Conducte que uneix la caixa del timpà amb la nasofaringe i iguala la pressió de la caixa amb l'atmosfèrica. Un terç és ossi i dos terços, cartilaginosos. La part òssia, la que surt de la caixa del timpà, és una reconstrucció.",
   },
   {
     id: "cochlea",
     layer: "inner",
     name: "Còclea",
-    text: "Tub en espiral ple de líquid on les vibracions es converteixen en senyals nerviosos.",
+    text: "Conducte ossi en espiral d'unes 2,5-2,75 voltes, ple de líquid. La transducció de les vibracions en senyals nerviosos la fan les cèl·lules ciliades de l'òrgan de Corti.",
   },
   {
     id: "vestibule",
@@ -73,8 +73,8 @@ export const STRUCTURES = [
   {
     id: "nerve",
     layer: "inner",
-    name: "Nervi auditiu (coclear)",
-    text: "Porta els senyals de la còclea fins al cervell, on s'interpreten com a so.",
+    name: "Nervi coclear",
+    text: "Part coclear del nervi vestibulococlear (VIII): porta els senyals de la còclea fins al tronc de l'encèfal (nuclis coclears); d'allà, la via auditiva arriba a l'escorça auditiva, on s'interpreten com a so.",
   },
   {
     id: "temporalBone",
@@ -90,7 +90,9 @@ export const STEPS = [
   { id: "tympanum", name: "El timpà vibra" },
   { id: "malleus", name: "El martell segueix el timpà" },
   { id: "incus", name: "L'enclusa transmet el moviment" },
-  { id: "stapes", name: "L'estrep empeny la finestra oval" },
+  { id: "stapes", name: "L'estrep, encaixat a la finestra oval, mou la perilimfa del vestíbul" },
 ];
+
+export const ANIMATION_NOTE = "A càmera lenta i exagerat: en realitat, el martell i l'enclusa es mouen junts i alhora.";
 
 export const byId = (id) => STRUCTURES.find((s) => s.id === id);

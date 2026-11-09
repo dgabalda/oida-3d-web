@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/OrbitControls.js";
-import { LAYERS, STEPS, byId } from "./anatomy.js";
+import { LAYERS, STEPS, ANIMATION_NOTE, byId } from "./anatomy.js";
 import { loadEar } from "./model.js";
 import { HearingAnimation } from "./animation.js";
 import { ProgressStore } from "./progress.js";
@@ -201,6 +201,7 @@ function renderSteps() {
     li.dataset.index = String(i);
     ol.append(li);
   });
+  $("#animation-note").textContent = ANIMATION_NOTE;
 }
 
 // Part whose label is highlighted at each animation step (the wave travels along the canal).

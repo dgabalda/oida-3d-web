@@ -10,6 +10,20 @@ import { byId } from "./anatomy.js";
 const OFFSET = 110;      // px from the part to its label, along the outward direction
 const GAP = 4;           // px between labels after resolving overlaps
 
+// Vertex of the mesh nearest a world point, returned in the mesh's local coordinates.
+function nearestVertex(mesh, worldPoint) {
+  const p = worldPoint.clone().applyMatrix4(mesh.matrixWorld.clone().invert());
+  const pos = mesh.geometry.attributes.position;
+  const v = new THREE.Vector3(), best = new THREE.Vector3();
+  let bestD = Infinity;
+  for (let i = 0; i < pos.count; i++) {
+    v.fromBufferAttribute(pos, i);
+    const d = v.distanceToSquared(p);
+    if (d < bestD) { bestD = d; best.copy(v); }
+  }
+  return best;
+}
+
 export class NameLabels {
   constructor(container, camera, root, isVisible) {
     this.camera = camera;
@@ -24,17 +38,30 @@ export class NameLabels {
     this.layer.append(this.svg);
     container.append(this.layer);
 
-    // Group meshes by structure; keep each mesh's local centre to project it every frame.
+    // Group meshes by structure; keep each mesh's anchor (a vertex ON the part, in local coordinates)
+    // to project it every frame. By default, the vertex nearest the centre of its bounding box, so the
+    // leader line always touches the part. The malleus is anchored on its handle (the vertex nearest
+    // the point halfway between its centre and the centre of the tympanum, where the handle runs);
+    // the incus, on its body (default).
+    root.updateMatrixWorld(true);
+    const meshes = [];
+    root.traverse((o) => { if (o.isMesh && o.userData.structureId && byId(o.userData.structureId)) meshes.push(o); });
+    const worldCentre = (id) => {
+      const box = new THREE.Box3();
+      for (const m of meshes) if (m.userData.structureId === id) box.expandByObject(m);
+      return box.isEmpty() ? null : box.getCenter(new THREE.Vector3());
+    };
+    const tympanum = worldCentre("tympanum");
     const groups = new Map();
-    root.traverse((o) => {
-      if (!o.isMesh || !o.userData.structureId) return;
+    for (const o of meshes) {
       const id = o.userData.structureId;
-      if (!byId(id)) return;
       o.geometry.computeBoundingBox();
-      const local = o.geometry.boundingBox.getCenter(new THREE.Vector3());
+      let target = o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld);
+      if (id === "malleus" && tympanum) target = target.clone().lerp(tympanum, 0.5); // middle of the handle
+      const local = nearestVertex(o, target);
       if (!groups.has(id)) groups.set(id, []);
       groups.get(id).push({ mesh: o, local });
-    });
+    }
     this.items = [...groups].map(([id, meshes]) => {
       const el = document.createElement("span");
       el.className = "label";
